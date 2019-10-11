@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <pre>{{ user }}</pre>
+        <input type="text" v-model="user.name">
+        <input type="button" value="重置user对象" @click=" restUser() ">
+        <pre>{{ arr }}</pre>
+        <input type="button" value="修改下标0的数据" @click=" arr[0]='新值' ">
+        <!-- 调用 vue 定义的数组的变异方法 -->
+        <input type="button" value="array push" @click=" arr.push('ddd') ">
+        <input type="button" value="重置数组" @click=" arr= [6,7,8,9] ">
+
+
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            user:{
+                name:"tom"
+            },
+            arr:[1,2,3,4]
+        },
+        watch: {
+            // 默认关心被监控的数据值（引用变量-地址）
+            // user:function(nv,ov){
+            //     console.log("user监控器",nv,ov)
+            // },
+            user:{
+                handler:function(nv,ov){
+                    console.log("user监控器",nv,ov)
+                },
+                // 
+                deep:true // 不仅关心被监控的数据值（引用变量-地址），同时关心属性
+            },
+            "user.name":function(nv,ov){
+                console.log("user.name监控器",nv,ov)
+            },
+            arr:function(nv,ov){
+                console.log("arr监控器",nv,ov)
+            }
+        },
+        methods: {
+            restUser(){
+                // 修改了引用变量的地址
+                this.user = {
+                    name:"tom"
+                }
+            }
+        },
+    })
+</script>
+</html>

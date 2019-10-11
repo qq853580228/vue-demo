@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>简化后的MVVM设计模式的实现</title>
+</head>
+
+<body>
+    <div id="app">
+        <p mv-text="msg"></p>
+        <p mv-text="info"></p>
+        <p mv-text="msg"></p>
+        <p mv-text="msg"></p>
+        <p mv-text="msg"></p>
+
+    </div>
+</body>
+<script>
+    // 记录监视DOM对象和定义DOM更新方法
+    var Watcher = function(){
+
+    }
+    // 设置变量对应的DOM集合，并存于监视实例对象中
+    Watcher.prototype.setDom = function(rootDom,key){
+        let selStr = `[mv-text="${key}"]`;
+        this[key] = rootDom.querySelectorAll(selStr);
+    }
+    // 对应变量的DOM更新操作
+    Watcher.prototype.notyify = function(key,nv){
+        // 获取变量对应的DOM集合
+        let domList = this[key]; 
+        for (let i = 0; i < domList.length; i++) {
+            // dom 属性更新
+           domList[i].textContent = nv;
+        }
+    }
+    // 统一初始化数据更新方法
+    Watcher.prototype.update = function(data){
+        for (let key in data) {
+            this.notyify(key,data[key]);
+        }
+    }
+
+    var Mvvm = function (options) {
+        this.init(options.el,options.data);
+    }
+    // 完成数据劫持操作
+    Mvvm.prototype.deps = function(data){
+        // 完成变量和元素依赖定义
+        let warcher = new Watcher();
+
+        // 没有意义，仅仅只是为可测试使用
+        this.temp = warcher;
+
+        // 循环变量调用 defineProperty，并完成DOM关联
+        for (let key in data) {
+            // 完成当前变量和DOM的对应关系记录
+            warcher.setDom(this.$el,key);
+            // 完成每个变量的数据劫持操作
+            Object.defineProperty(this,key,{
+                get(){
+                    return data[key];
+                },
+                set(nv){
+                    data[key] = nv;
+                    // 更新当前变量对应的DOM
+                    warcher.notyify(key,nv);
+                }
+            })
+        }
+        // 页面数据初始化
+        warcher.update(data);
+    }
+    // 定义一个实例初始化
+    Mvvm.prototype.init = function(el,data){
+        // 实例对应的DOM容器
+        this.$el = document.querySelector(el);
+        // 将数据私有化为临时变量==>为后续执行提供数据支持
+        this._data = data;
+        // 将数据变量完成 get set 数据劫持操作
+        this.deps(this._data);
+    }
+
+    var mv = new Mvvm({
+        el: "#app",
+        data: {
+            msg: "默认msg",
+            info: "默认info"
+        }
+    });
+</script>
+
+</html>

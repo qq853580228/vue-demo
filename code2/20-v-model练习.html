@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table td {
+            border: 1px solid black;
+            text-align: center;
+            padding: 10px 30px;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <label for="">name:</label>
+            <input type="text" v-model="name">
+            <span class="error">{{ nameMsg }}</span>
+        </div>
+        <div>
+            <label for="">age:</label>
+            <input type="text" v-model="age">
+            <span class="error">{{ ageMsg }}</span>
+
+        </div>
+        <!-- 事件防抖 -->
+        <input type="button" value="添加用户" @click="addUser()" :disabled=" name==''||age=='' ">
+        <hr>
+        <table>
+            <thead>
+                <tr>
+                    <td>
+                        <input type="checkbox" v-model="checkAll" @change="changeAll()">
+                    </td>
+                    <td>No</td>
+                    <td>name</td>
+                    <td>age</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(user, i) in userList">
+                    <td>
+                        <input type="checkbox" :value=" i+'' "  v-model="userListStatus" @change="checkItemAll()">
+                    </td>
+                    <td>{{ i+1 }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.age }}</td>
+                    <td>
+                        <input type="button" value="删除" @click="removeItem( user,i )">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            userList: [
+                { name: "tom", age: 23 }
+            ],
+            name: "",
+            age: "",
+            nameMsg: "",
+            ageMsg: "",
+            checkAll:false,
+            userListStatus:[]
+        },
+        methods: {
+            addUser() {
+                if (this.name == "") {
+                    this.nameMsg = "name名称不能为空";
+                    return;
+                }
+                this.nameMsg = "";
+                if (this.age == "") {
+                    this.ageMsg = "age年龄不能为空";
+                    return;
+                }
+                this.ageMsg = "";
+                this.userList.push({
+                    name: this.name,
+                    age: this.age
+                })
+                this.name = "";
+                this.age = "";
+            },
+            removeItem(item,i){
+                console.log(item)
+                // this.userList.shift(item);
+                // this.userList.splice(index,count)
+                this.userList.splice(i,1);
+            },
+            changeAll(){
+                if(this.checkAll){
+                    for (let i in this.userList) {
+                       this.userListStatus.push(i)
+                    }
+                }else{
+                    this.userListStatus = [];
+                }
+            },
+            checkItemAll(){
+                // console.log(1);
+                this.checkAll = true;
+                
+                for (let i in this.userList) {
+                    if (!this.userListStatus.includes(i)) {
+                        this.checkAll = false;
+                        return;
+                    }
+                }
+            }
+        },
+    })
+</script>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 引用类型数据变量的监控 -->
+        <pre>{{ user }}</pre>
+        <input type="text" v-model="user.name">
+        <input type="text" :value="user.name" @input=" user.name=$event.target.value ">
+        <hr>
+        <input type="text" v-model="user.age"> 
+        <input type="button" value="resetUser" @click="resetUser()">
+        <pre>{{ arr }}</pre>
+        <input type="button" value="setArr" @click=" arr[1]='aa' ">
+        <input type="button" value="push" @click=" pushItem() ">
+
+
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            user:{
+                name:"tom",
+                age:23
+            },
+            arr:[1,2,3,4]
+        },
+        watch: {
+            // 监视器默认只监控 定义的引用变量，不会监控引用变量中的属性变化
+            // user(nv,ov){
+            //     console.log("user变量变化");
+            // },
+            user:{
+                // 无差别监视 == 当开启深度监视时，只要对象中的任意属性发生变化，都会执行监控方法
+                handler(nv,ov){
+                    // 当监控的数据为应用类型变量时，nv和ov都是修改后的变量结果
+                    console.log("user变量变化",nv,ov);
+                },
+                // deep: Boolean 是否开启深度监视
+                deep:true // 当前的引用类型监控器不仅监控该变量地址的变化，同时监控属性的变化
+            },
+            // 必须 只监控 一个对象中的一个固定属性
+            //   key 取 对象属性路径的字符串形式，描述只要监控的对象属性
+            "user.name":function(){
+                console.log("user.name的监视器")
+            },
+            arr(){
+                console.log("arr变量变化");
+            }
+        },
+        methods: {
+            resetUser(){
+                this.user = {
+                    name:"jack"
+                }
+            },
+            pushItem(){
+                /*
+                    调用变异方法
+                        变异方法是vue重写的数组方法：保留原方法功能的同时，提供监控调用
+                            push()，pop()，shift()，unshift()，splice()，sort()，reverse()
+                    由于 JavaScript 的限制，Vue 不能检测以下数组的变动：
+                        当你利用索引直接设置一个数组项时，例如：vm.items[indexOfItem] = newValue
+                        当你修改数组的长度时，例如：vm.items.length = newLength
+                */
+                this.arr.push("aaa");
+                console.log(this);
+            }
+        },
+    })
+</script>
+</html>

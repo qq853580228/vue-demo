@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        var domTree;
+        window.onload = function(){
+            // var divDom = document.createElement("div");
+            // var h1Dom = document.createElement("h1");
+            // h1Dom.innerHTML = "测试数据";
+            // var spanDom = document.createElement("span");
+            // spanDom.innerHTML = "子数据";
+            // h1Dom.appendChild(spanDom);
+            // divDom.appendChild(h1Dom);
+            // document.body.appendChild(divDom);
+
+            // 该对象就是 vue 中所谓的虚拟DOM（react提出的）
+            var domObject = {
+                tagName:"div",
+                content:"",
+                childrens:[
+                    {
+                        tagName:"h1",
+                        content:"测试数据{{ msg }}",
+                        childrens:[
+                            {
+                                tagName:"span",
+                                content:"子数据",
+                            }
+                        ]
+                    }
+                ]
+            }
+
+            function createElement(obj){
+                let tempDom = document.createElement(obj.tagName);
+                tempDom.innerHTML = obj.content;
+                
+                if(obj.childrens&&obj.childrens.length!=0){
+                    for (let i = 0; i < obj.childrens.length; i++) {
+                        let td = createElement(obj.childrens[i]);
+                        tempDom.appendChild(td);
+                    }
+                }
+                return tempDom;
+            }
+            domTree = createElement(domObject);
+            console.log(domTree)
+            // document.body.appendChild(domTree);
+
+
+
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h1>测试数据 <span>子数据</span> </h1>
+    </div>
+</body>
+</html>

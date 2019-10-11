@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        var msg = "msg变量";
+        
+        window.onload = function(){
+            var h4Dom = document.getElementById("h4Dom");
+            var inputDom = document.getElementById("inputDom");
+
+            h4Dom.innerHTML = msg;
+            inputDom.value = msg;
+
+            // 为JS dom 对象进行动态的事件绑定
+            inputDom.addEventListener("input",function(){
+                // addEventListener 中绑定的方法，方法中this指向与当前dom对象
+                // console.log(this.value);
+                msg = this.value;
+                h4Dom.innerHTML = msg;
+            })
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h4 id="h4Dom"></h4>
+        <!-- 
+            input 事件
+            输入文本框的值发生变化后 直接触发的事件
+        -->
+        <input type="text" value="" id="inputDom">
+    </div>
+</body>
+</html>

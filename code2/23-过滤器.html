@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/css.css">
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="film-source" v-for="source in sources">
+            <!-- <span 
+                class="star-img" 
+                v-for="c in 5"
+                :class=" Math.ceil( source ) >= c ? 'open':'close' "
+            ></span> -->
+            <span 
+                class="star-img" 
+                v-for="c in 5"
+                :class=" source | starClass(c) "
+            ></span>
+            <span class="star-source">{{ source }}</span>
+        </div>
+        <hr>
+        <p>{{ source | testFilter }}</p>
+        <p>{{ 3.7 | testFilter( 'a' ) }}</p>
+        <p>{{ 3.8 | testFilter( 'a','b' ) }}</p>
+        <p>{{ 3.9 | testFilter( 'a','b','c' ) }}</p>
+        <hr>
+        <p>当前时间：{{ day | formatData() }}</p>
+    </div>
+    <div id="root">
+        <!-- <p>{{ "4.1" | testFilter }}</p> -->
+        <p>当前时间：{{ day | formatData() }}</p>
+    </div>
+</body>
+<script>
+    // 全局过滤器定义必须在vue实例构建之前
+    // Vue.filter(id, [definition]) // 单一过滤器定义
+    //      id : 定义过滤器名称 ==> 过滤器名称必须唯一
+    //      definition ： 当前过滤器的执行方法
+
+    // 过滤器工具方法
+    //      1、严谨性
+    Vue.filter("formatData",function(target){
+        // 全局过滤器的执行方法 所需遵循特性和局部过滤器方法一致
+        // console.log("全局过滤器formatData");
+        if( !(target instanceof Date) ){
+            return target;
+        }
+        var y = target.getFullYear();
+        var m = target.getMonth()+1;
+        var d = target.getDate();
+
+        var h = target.getHours();
+        var mm = target.getMinutes();
+        var s = target.getSeconds();
+        return `${y}年${m}月${d}日 ${h}:${mm}:${s}`;
+    })
+    
+
+    new Vue({
+        el:"#app",
+        data:{
+            source:3.6,
+            sources:[3.6,2.4,4.5],
+            day:new Date()
+        },
+        // computed: {
+        //     getClass(){
+        //         return  Math.ceil( this.source ) >= c ? 'open':'close'
+        //     }
+        // },
+        // 为当前vue示例定义过滤器方法==>普通方法
+        filters:{
+            // key:value
+            // key 过滤器方法名称（id=唯一性）
+            // value 过滤方法调用的执行函数
+            //       vue中构建的所有过滤器方法必然存在第一个形参 target
+            //              target 为 | 管道符左侧的待处理数据
+            //                  过滤器方法形参定义，第一个形参始终为 | 管道符号左侧的待处理数据
+            //                  从第二个形参开始，参数值来自于 | 管道符号右侧，过滤方法执行时依次传入的额外参数
+            //              过滤器方法必须存在 处理后的数据返回值
+            testFilter:function(target,a,b,c){
+                // arguments 为JS中所有方法形参的集合
+                console.log(arguments);
+                console.log("过滤器方法",target,a,b,c);
+                return target + "分";
+            },
+            starClass(target,c){
+                // Math.ceil( source ) >= c ? 'open':'close'
+                return Math.ceil( target ) >= c ? 'open':'close'
+                // return "open"
+            }
+        }
+    });
+    new Vue({
+        el:"#root",
+        data:{
+            day:new Date()
+        },
+        // filters:{
+        //     formatData(){
+        //         console.log("局部过滤器");
+        //     }
+        // }
+    })
+
+</script>
+</html>

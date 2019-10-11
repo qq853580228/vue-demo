@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .div1 {
+            width: 400px;
+            height: 400px;
+            border: 1px solid black;
+        }
+
+        .div2 {
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+        }
+
+        .div3 {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+        }
+
+        .div4 {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+        }
+
+        body {
+            margin-bottom: 600px;
+        }
+    </style>
+    <script src="./js/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <div class="div1 aa" @click="printFun('div1')">div1
+            <div class="div2 aa" @click="printFun('div2')">div2
+                <div class="div3 aa" @click="printFun('div3')">div3
+                    <div class="div4 aa" @click="printFun('div4')">div4</div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="div1 aa" @click.capture="printFun('div1')">div1 .capture
+            <div class="div2 aa" @click.capture="printFun('div2')">div2 .capture
+                <div class="div3 aa" @click.capture="printFun('div3')">div3 .capture
+                    <div class="div4 aa" @click.capture="printFun('div4')">div4 .capture</div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!-- 优先执行捕获再执行冒泡 -->
+        <div class="div1 aa" @click.capture="printFun('div1')">div1 .capture
+            <div class="div2 aa" @click.capture="printFun('div2')">div2 .capture
+                <div class="div3 aa" @click="printFun('div3')">div3
+                    <div class="div4 aa" @click="printFun('div4')">div4</div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="div1 aa" @click.self="printFun('div1')">div1 .self
+            <div class="div2 aa" @click="printFun('div2')">div2
+                <div class="div3 aa" @click.stop="printFun('div3')">div3 .stop
+                    <div class="div4 aa" @click="printFun('div4')">div4</div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!-- 修饰符可以连续调用 -->
+        <ul @click.capture.stop="printFun('事件传递',$event)">
+            <li>li1</li>
+            <li>li2</li>
+            <li>li3</li>
+            <li>li4</li>
+            <li>li5</li>
+        </ul>
+        <hr>
+        <textarea cols="30" rows="10" @keyup.65.17="printStr($event)"></textarea>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        methods: {
+            printFun(name,e) {
+                console.log(name,e.target.innerHTML);
+            },
+            printStr(e){
+                console.log(e)
+            }
+        },
+    })
+
+
+</script>
+
+</html>

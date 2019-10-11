@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/swiper.css">
+    <script src="./js/swiper.js"></script>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1 ref="h1Dom">dom 对象</h1>
+        <input type="button" value="获取rootDom" @click="printRootDom()">
+        <input type="button" value="获取Data" @click="printData()">
+        <input type="button" value="获取Options" @click="printOptions()">
+        <hr>
+        <input type="button" value="初始化swiper实例" @click="initSwiper()">
+        <div class="swiper-container" ref="loop">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">slider1</div>
+                <div class="swiper-slide">slider2</div>
+                <div class="swiper-slide">slider3</div>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <hr>
+    <input type="button" value="打印vue实例容器对象" onclick="printVueDom()">
+    <input type="button" value="打印vue实例数据观察者对象" onclick="printVueData()">
+    <hr>
+</body>
+<script>
+    // var mySwiper = new Swiper('.swiper-container', {
+    //     autoplay: true,//可选选项，自动滑动
+    // })
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "msg变量",
+            info: "info变量"
+        },
+        methods: {
+            printRootDom() {
+                // 当前实例对应的DOM容器对象
+                console.log(this.$el);
+            },
+            printData() {
+                // this.msg
+                // 当前实例对应的被劫持观察的 数据仓库对象
+                console.log(this.$data);
+            },
+            printOptions() {
+                // 通过开发者传入的配置项，构建出来的用于创建vue实例的整合结果
+                console.log(this.$options);
+            },
+            initSwiper() {
+                // 获取当前vue实例的DOM元素对象
+                // 只能获取当前vue实例对应的容器中具有 ref 属性的DOM元素
+                // 会以 ref属性取值的名字作为key，对应的DOM作为value存放在$refs中
+                console.log(this.$refs);
+                console.log(this.$refs.h1Dom);
+
+                new Swiper(this.$refs.loop, {
+                    autoplay: true,//可选选项，自动滑动
+                })
+            }
+        },
+    });
+
+    function printVueDom() {
+        console.log(vm.$el);
+    }
+    function printVueData() {
+        console.log(vm.$data);
+    }
+</script>
+
+</html>

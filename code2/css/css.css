@@ -1,0 +1,28 @@
+.film-source {
+    margin: 0px 10px 0px 0px;
+  }
+  .film-source > span {
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    margin-left: 2px;
+  }
+  .film-source > .star-img {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+  .film-source > .open {
+    background-image: url(../images/star-open.png);
+  }
+  .film-source > .close {
+    background-image: url(../images/star-close.png);
+  }
+  .film-source > .star-source {
+    padding-left: 10px;
+    font-size: 22px;
+  }
+  .film-source > .star-tip {
+    color: #6c757d;
+    font-size: 22px;
+  }

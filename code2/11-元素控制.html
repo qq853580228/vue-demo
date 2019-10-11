@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1 v-show=" true ">h1标签1</h1>
+        <h1 v-show=" false ">h2标签2</h1>
+        <h1 v-show=" '' ">h2标签3</h1>
+        <h1 v-show=" 'asdasda' ">h2标签4</h1>
+        <h1 v-show=" 0 ">h2标签5</h1>
+        <h1 v-show=" 1 ">h2标签6</h1>
+        <h1 v-show=" [] ">h2标签7</h1>
+        <h1 v-show=" {} ">h2标签8</h1>
+        <hr>
+        <h1 v-show=" flag ">请登录</h1>
+        <p v-show=" !flag ">当前用户tom,账户余额300</p>
+        <hr>
+        <h1 v-if=" flag ">请登录</h1>
+        <p v-if=" !flag ">当前用户tom,账户余额300</p>
+        <input type="button" value="显示隐藏" @click=" flag=!flag ">
+        <hr>
+        <p v-if="num<10">小于10</p>
+        <p v-else-if="num==10">等于10</p>
+        <p v-else>大于10</p>
+        <hr>
+        <p v-if="num<10">小于10</p>
+        <p v-if="num==10">等于10</p>
+        <p v-if="num>10">大于10</p>
+        <hr>
+        <p v-show="num<10">小于10</p>
+        <p v-show="num==10">等于10</p>
+        <p v-show="num>10">大于10</p>
+        <input type="button" value="+" @click=" num = num+1 ">
+        <input type="button" value="-" @click=" num = num-1 ">
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            flag:true,
+            num:10
+        }
+    })
+</script>
+</html>

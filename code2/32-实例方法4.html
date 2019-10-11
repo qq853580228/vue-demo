@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/swiper.css">
+    <script src="./js/swiper.js"></script>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1 ref="h1Dom">{{ msg }}</h1>
+        <input type="button" value="赋值msg" @click="setMsg()">
+        <hr>
+        <div class="swiper-container" ref="loop">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" v-for="(item, index) in loops" :key="index">slider:{{ item }}</div>
+            </div>
+        </div>
+        <input type="button" value="initSwiper()" @click="initSwiper()">
+        <hr>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "msg变量",
+            loops:[]
+        },
+        methods: {
+            setMsg() {
+                console.log("赋值前：", this.$refs.h1Dom.innerHTML);
+                // 下述代码不是直接立即生效的代码，需要一定执行时间
+                this.msg = "新值"; // 异步过程
+                // this.$nextTick(callback)  callback 取值function，异步的回调函数
+                this.$nextTick(() => {
+                    console.log("nextTick:", this.$refs.h1Dom.innerHTML);
+                });
+                console.log("赋值后：", this.$refs.h1Dom.innerHTML);
+            },
+            initSwiper(){
+                this.loops = [1,2,3,4,5];
+                this.$nextTick(()=>{
+                    new Swiper(this.$refs.loop, {
+                        autoplay: true,//可选选项，自动滑动
+                    })
+                })
+            }
+        },
+    });
+</script>
+
+</html>

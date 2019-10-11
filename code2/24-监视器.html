@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script src="./js/jquery-1.9.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- <input type="text" v-model="wd" @input="sendBidu()"> -->
+        <input type="text" v-model="wd">
+        <input type="button" value="百度一下" @click="sendBidu()">
+        <input type="button" value="添加结果" @click=" wd = 'html' ">
+        <hr>
+        <!-- <p>{{ result }}</p> -->
+        <ul>
+            <li v-for="(item, index) in result" :key="index" @click=" wd = item ">{{ item }}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            wd:"html",
+            result:[]
+        },
+        watch: {
+            // 监控数据变量的变化操作
+            // key:value
+            //   key 监控器名称==> 描述当前vue示例中的数据仓库中 哪个变量需要监控
+            //   value 描述监控变量变化后的执行方法
+            //         方法内部的this 依然指向与 当前vue实例对象
+            //         方法默认具有 两个 形参值，一个为修改前的数据，一个修改后的数据
+            // wd:function(newValue,oldValue){
+            //     // console.log("wd发生变化时",this.wd)
+            //     console.log(newValue,oldValue)
+            //     this.sendBidu();
+            // }
+
+            // 监视器定义时可以取值 Object
+            //   Object:{ handler:定义回调函数 ,immediate: Boolean 是否开启初始化触发   }
+            wd:{
+                handler:function(){
+                    // handler 等效于 监视器直接定义方法的功能
+                    this.sendBidu();
+                },
+                immediate:true
+            }
+        },
+        methods: {
+            sendBidu(){
+                // console.log(this.wd);
+                $.ajax({
+                    url:"https://www.baidu.com/su",
+                    methods:"get",
+                    dataType:"jsonp",
+                    data:{
+                        wd:this.wd
+                    },
+                    jsonp:"cb",
+                    success:(data)=>{
+                        console.log(data,this);
+                        this.result = data.s;
+                    }
+                })
+            }
+        },
+    })
+</script>
+</html>

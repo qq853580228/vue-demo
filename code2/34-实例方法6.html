@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h4>msg:{{ msg }}</h4>
+        <input type="text" v-model="msg">
+        <hr>
+        <h4>info:{{ info }}</h4>
+        <input type="text" v-model="info">
+        <hr>
+        <p>{{ user }}</p>
+        <input type="text" v-model="user.name">
+        <hr>
+        <p>{{ a+b }}</p>
+        <input type="text" v-model.number="a">
+        <input type="text" v-model.number="b">
+
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            msg: "msg变量",
+            info: "info变量",
+            a: 1,
+            b: 2,
+            user: {
+                name: "tom"
+            }
+        },
+        // 组件内的监控器无法关闭
+        watch: {
+            msg(nv, ov) {
+                console.log(nv, ov);
+            },
+            // a(){
+            //     console.log("监视方法----");
+            // },
+            // b(){
+            //     console.log("监视方法----");
+            // }
+        },
+    });
+
+    // vm.$watch(expOrFn,callback [,options])
+    vm.$watch("info", function (nv, ov) {
+        console.log(nv, ov);
+    })
+    vm.$watch("user", function () {
+        console.log("user");
+    }, {
+            deep: true
+        })
+    // $watch 可以返回一个 当前 监控属性的监控关闭方法
+    var unwatch = vm.$watch("user.name", function () {
+        console.log("user.name");
+        unwatch();
+    })
+    // unwatch 为一个 function ,该方法调用会直接关闭对应的监控器watch
+    console.log(unwatch)
+
+
+    // 多变量共同监控
+    vm.$watch(function () {
+        // console.log(this); // 就是当前实例的指向
+        // return this.a + this.b; // 会影响 监控 回调的返回结果
+        // return { a:this.a, b:this.b }
+        return [ this.a,this.b ]
+    }, function (nv, ov) {
+        console.log("监视方法->", nv, ov);
+    })
+</script>
+
+</html>

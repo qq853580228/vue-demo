@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script>
+        function getSelectValue() {
+            var selDom = document.getElementById("selectDom");
+            console.log(selDom.value); // value属性为 select 标签的DOM属性，描述的是被选中的option的值(value,textContent)
+            console.log(selDom.options)// 获取当前 select标签所包含的所有 option标签
+            console.log(selDom.selectedIndex)// 获取当前 被选中的 option 的下标
+            // 通过修改  selectedIndex 可以直接切换option选中状态 
+            selDom.selectedIndex = 4;
+
+        }
+        function selectIndex() {
+            var selDom = document.getElementById("selectDom");
+            // 通过修改  selectedIndex 可以直接切换option选中状态 
+            // selDom.selectedIndex = 4;
+            // 通过对 select标签的 value属性赋值，完成自动匹配选择
+            selDom.value = "OPT3";
+        }
+    </script>
+</head>
+
+<body>
+    <select id="selectDom" onchange="getSelectValue()">
+        <optgroup label="组别A">
+            <option value="OPT1">opt1</option>
+            <option>opt2</option>
+        </optgroup>
+        <optgroup label="组别B">
+            <option value="OPT3">opt3</option>
+            <option value="OPT4">opt4</option>
+            <option value="OPT5">opt5</option>
+        </optgroup>
+    </select>
+    <input type="button" value="选中下标4" onclick="selectIndex()">
+    <hr>
+    <div id="app">
+        <p>msg:{{ msg }}</p>
+        <!-- 
+            1、单行文本框 => 文本框，颜色选择器，时间选择器，数值文本框……
+        -->
+        <input type="text" v-model="msg"><br>
+        <!-- v-mode 等同于 v-bind 和 v-on 的统一定义 -->
+        <input type="text" :value="msg" @input=" msg = $event.target.value "><br>
+        <p :style=" 'color:'+colorStr+';' ">colorStr：{{ colorStr }}</p>
+        <input type="color" v-model="colorStr"><br>
+        <input type="color" :value="colorStr" @input=" colorStr= $event.target.value  ">
+        <hr>
+        <!-- 
+            2、多行文本域
+                v-model 对于 多行文本域 操作的是 多行文本域的DOM对象的 value 属性
+         -->
+        <pre>{{ textMsg }}</pre>
+        <textarea cols="10" rows="4" v-model="textMsg"></textarea>
+        <textarea cols="10" rows="4" :value="textMsg" @input=" textMsg = $event.target.value "></textarea>
+        <hr>
+        <!-- 
+            3、单选按钮
+                HTML 单选按钮以 name属性分组，以checked属性描述选中，以 value描述选中值
+                v-model 通过调用 单选按钮的 value 完成单选按钮取值操作，通过单选按钮定义的value和关联变量完成 checked 比较操作
+        -->
+        男：<input type="radio" value="m" :checked=" radioStr == 'm' " @change=" radioStr=$event.target.value ">
+        女：<input type="radio" value="f" :checked=" radioStr == 'f' " @change=" radioStr=$event.target.value ">
+        未知：<input type="radio" value="unkown" :checked=" radioStr == 'unkown' "
+            @change=" radioStr=$event.target.value ">
+        <br>
+        男：<input type="radio" value="m" v-model="radioStr">
+        女：<input type="radio" value="f" v-model="radioStr">
+        未知：<input type="radio" value="unkown" v-model="radioStr">
+        <br>
+        <!-- 
+            在vue的v-model 绑定单选按钮后，如果标签未提供 value属性值，vue会默认为 value取值 null
+        -->
+        男：<input type="radio" v-model="radioFlag">
+        女：<input type="radio" v-model="radioFlag">
+        未知：<input type="radio" value="aa" v-model="radioFlag">
+        <hr>
+        <!-- 
+            4、多选框
+                HTML 复选按钮以 name属性分组，以checked属性描述选中，以 value描述选中值
+
+            ** v-model对于复选按钮会根据绑定变量类型 切换操作方式
+                - 非数组
+                    + v-model 不再关心 标签value属性，此时 vue会以 true描述选中值，false描述未选中值
+                    + checked 直接取 绑定的变量
+                - 数组
+                    + v-model 判断被选中的复选框是否存在value属性值
+                        > 如果存在将该属性值写入绑定的数组中
+                        > 如果不存在会直接向数组中写入 null
+                    + checked 判断每个复选按钮在 绑定的数组中 是否存在 相同 取值
+            ** v-model 在复选框绑定取值时，如果绑定的变量为数组类型，数组中会以标签选中先后添加数据
+        -->
+        <input type="checkbox" value="a" v-model="checkData">
+        <input type="checkbox" value="b" v-model="checkData">
+        <!-- <input type="checkbox" v-model="checkData">
+        <input type="checkbox" v-model="checkData"> -->
+        <input type="checkbox" value="c" v-model="checkData">
+        <input type="checkbox" value="d" v-model="checkData">
+        <hr>
+        <!-- 
+            ** 复选框的 v-model操作时的辅助属性(复选按钮的单一用途上)
+                - true-value 复选框选中是时的值
+                - false-value 复选框未选中时的值
+         -->
+        <input type="checkbox" true-value="选中" false-value="未选中" v-model="info">
+        <hr>
+        <!-- 
+            5、下拉列表
+                html 中的下拉列表 所具有的特殊性质
+                    select 只能接收 option、optgroup 标签作为渲染依据
+                    optgroup 标签不参与 select 选项操作
+                    option 只能定义 取值文本，不能定义相关标签字符
+                    页面构成时，通过option boolean 类型属性 selected 描述 选中项
+                    如果构成option没有存在 selected属性的标签，默认选中第一个option
+                JS 中下拉列表对象 ==> 参考当页前面的代码
+
+            v-model对于 下拉列表具有下述操作行为要求
+                + v-model 只能被绑定在 select 标签上
+                    - v-model 的拆分 ==> select DOM v-bind:value  v-on:change 获取select的value值
+                     
+        -->
+        <select v-model="selectData">
+            <optgroup label="组别A">
+                <option value="OPT1">opt1</option>
+                <option>opt2</option>
+            </optgroup>
+            <optgroup label="组别B">
+                <option value="OPT3">opt3</option>
+                <option value="OPT4">opt4</option>
+                <option value="OPT5">opt5</option>
+            </optgroup>
+        </select>
+        <hr>
+        <select :value="selectData" @change=" selectData=$event.target.value " >
+            <optgroup label="组别A">
+                <option value="OPT1">opt1</option>
+                <option>opt2</option>
+            </optgroup>
+            <optgroup label="组别B">
+                <option value="OPT3">opt3</option>
+                <option value="OPT4">opt4</option>
+                <option value="OPT5">opt5</option>
+            </optgroup>
+        </select>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        // data 数据仓库中定义的数据变量具有 可读可写特性
+        data: {
+            msg: "字符串",
+            colorStr: "#000000",
+            textMsg: "",
+            radioFlag: true,
+            radioStr: "unkown",
+            // checkData:""
+            // checkData:["a","b"]
+            checkData: [],
+            info: "选中",
+            selectData: "OPT1"
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        // var _msg = "默认值";
+        var _msg = {
+            a: "1"
+        };
+        var data = {};
+        // Object.defineProperty 只会拦截 定义变量的值，不关心变量属性
+        // Object.defineProperty 只关心被定义的数据的**值**的变化
+
+        Object.defineProperty(data, "msg", {
+            get() {
+                console.log("msg的取值get");
+                return _msg;
+            },
+            set(nv) {
+                console.log("msg的赋值set");
+                _msg = nv;
+            }
+        })
+        // console.log("取值",data.msg.a); // 先调用了msg 所有触发了 get
+        // console.log("赋值=>");
+        // data.msg.a = "新值";// 先调用了msg 所有触发了 get
+        // console.log("<=赋值");
+        // console.log("重置msg对象=>");
+        // data.msg = { b:3 }
+        // console.log("<=重置msg对象");
+
+        var _arr = [1, 2, 3]
+        Object.defineProperty(data, "arr", {
+            get() {
+                console.log("arr的取值get");
+                return _arr;
+            },
+            set(nv) {
+                console.log("arr的赋值set");
+                _arr = nv;
+            }
+        });
+        // console.log(data.arr);
+        // console.log(data.arr[0]);
+        // console.log("------");
+        // data.arr[0] = "aa";
+        // console.log("push=>");
+        // data.arr.push("ccc");
+        // console.log("<=push");
+
+
+
+        // vue 实现对象的 属性 深度监控的方法
+        var temp = {
+            user: {
+                name: "tom",
+                age: 23,
+                skill: {
+                    html: 100,
+                    css: 100,
+                    js: 60
+                }
+            },
+            info: "aaaa",
+            num: 23
+        }
+        var content = {};
+        // 递归=根据条件，方法内部调用自己
+        function defineFun(obj) {
+            var tempBody = {};
+
+            for (let key in obj) {
+
+                if (obj[key].toString() == "[object Object]") {
+                    obj[key] = defineFun(obj[key]); //相当于下面注释代码在执行一遍
+                    // {name: "tom",age: 23}
+                    // var tempBody = {};
+                    // for (let key in obj) {
+                    //     if (obj[key].toString() == "[object Object]") {
+                    //         obj[key] = defineFun(obj[key]);
+                    //     }
+                    //     Object.defineProperty(tempBody, key, {
+                    //         get() {
+                    //             console.log(key, "取值get");
+                    //             return obj[key];
+                    //         },
+                    //         set(nv) {
+                    //             console.log(key, "赋值set", nv);
+                    //             obj[key] = nv;
+                    //         }
+                    //     });
+                    // }
+                    // return tempBody; // {name,age,get name,set name,get age, set age}
+                }
+
+                Object.defineProperty(tempBody, key, {
+                    get() {
+                        console.log(key, "取值get");
+                        return obj[key];
+                    },
+                    set(nv) {
+                        console.log(key, "赋值set", nv);
+                        obj[key] = nv;
+                    }
+                });
+
+            }
+
+            return tempBody;
+        }
+        content = defineFun(temp);
+
+        // 已知一个变量类型为数组，数组中存在多个未知元素，元素属性可能是 string 或者 array
+        //    要求：输入 当前变量中的每个元素值（包括子元素数组中每个元素值）
+        // var arrTemp = ["aaa",["vvv",["ddd",[]]]]
+        var arrTemp = [
+            "a", "b",
+            [
+                'aa', 'bb',
+                ['aaa', 'bbb', 'ccc'],
+                'cc'
+            ],
+            'c'
+        ];
+
+        function arrEarch(arr) {
+            for (let i in arr) {
+                // if(arrTemp[i] instanceof Array){
+                if (Array.isArray(arr[i])) {
+                    // ???
+                    arrEarch(arr[i]);
+                } else {
+                    console.log(arr[i]);
+                }
+            }
+        }
+        arrEarch(arrTemp);
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

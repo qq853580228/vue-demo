@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script>
+    var Vue = function (options) {
+        this.data = options.data;
+    }
+    var vm1 = new Vue({
+        data: {
+            msg: "数据"
+        }
+    });
+    var vm2 = new Vue({
+        data: {
+            msg: "数据"
+        }
+    });
+
+    var extend = function (options) {
+
+        return function () {
+            this.data = options.data;
+        }
+
+    }
+    var Fun = extend({
+        data: {
+            msg: "数据"
+        }
+    });
+    // console.log(Fun);
+    var vm3 = new Fun();
+    var vm4 = new Fun();
+
+    var extendA = function (options) {
+
+        return function () {
+            this.data = options.data();
+        }
+
+    }
+    var FunA = extendA({
+        data: function () {
+            return {
+                msg: "数据"
+            }
+        }
+    });
+    // console.log(Fun);
+    var vm5 = new FunA();
+    var vm6 = new FunA();
+</script>
+
+<body>
+
+</body>
+
+</html>

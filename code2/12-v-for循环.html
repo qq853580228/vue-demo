@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ arr }}</p>
+        <p>{{ item }}</p>
+        <ul>
+            <li v-for="item in arr">
+                <span>{{ item }}</span>
+            </li>
+        </ul>
+        <ul>
+            <li v-for="(item,index) in arr">
+                {{ index }}:<span>{{ item }}</span>
+            </li>
+        </ul>
+        <ul>
+            <li v-for="v in user">{{ v }}</li>
+        </ul>
+        <ul>
+            <li v-for="(v,k,count) in user">{{ count }}-{{ k }}:{{ v }}</li>
+        </ul>
+        <!-- <p>{{ item }}</p> -->
+        <hr>
+        <ul>
+            <li v-for="(item, index,arg) in 4 ">{{ item }}-{{ index }}={{ arg }}</li>
+        </ul>
+        <hr>
+        <ul>
+            <li v-for="(item, index, arg) in 'abcdefgh' ">{{ item }}-{{ index }}={{ arg }}</li>
+        </ul>
+        <hr>
+        <ul>
+            <li v-for="(item, index) in arr1">
+                <p>{{ item }}</p>
+                <span v-for="(v, k) in item">{{ k }}-{{ v }}</span>
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            arr: "南京,上海,苏州,镇江,扬州,合肥".split(","),
+            user: {
+                name: "tom",
+                age: 23
+            },
+            item: "aaaa",
+            num: 10,
+            arr1:[
+                {
+                    name: "tom",
+                    age: 23
+                },
+                {
+                    name: "jack",
+                    age: 24
+                },
+                {
+                    name: "aaa",
+                    age: 25
+                },
+            ]
+        }
+    })
+</script>
+
+</html>

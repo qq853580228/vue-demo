@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>简化后的MVVM设计模式的实现</title>
+</head>
+
+<body>
+    <div id="app">
+        <p mv-text="msg"></p>
+        <p mv-text="info"></p>
+        <p mv-text="msg"></p>
+        <p mv-text="msg"></p>
+        <p mv-text="msg"></p>
+
+    </div>
+</body>
+<script>
+    var Warcher = function () {
+
+    }
+    Warcher.prototype.notify = function (key, nv) {
+        for (let i = 0; i < this[key].length; i++) {
+            this[key][i].textContent = nv;
+        }
+    }
+
+    var Mvvm = function (options) {
+        this.$el = document.querySelector(options.el);
+        this._data = options.data;
+
+        // let subsDom = {};
+        let subsDom = new Warcher();
+
+        for (let key in this._data) {
+            let selStr = `[mv-text="${key}"]`;
+            let subs = this.$el.querySelectorAll(selStr);
+            subsDom[key] = subs;
+        }
+
+        for (let key in this._data) {
+            // for (let i = 0; i < subsDom[key].length; i++) {
+            //     subsDom[key][i].textContent = this._data[key];
+            // }
+            subsDom.notify(key, this._data[key]);
+
+            Object.defineProperty(this, key, {
+                get() {
+                    return this._data[key];
+                },
+                set(nv) {
+                    this._data[key] = nv;
+                    // for (let i = 0; i < subsDom[key].length; i++) {
+                    //     subsDom[key][i].textContent = this._data[key];
+                    // }
+
+                    subsDom.notify(key, this._data[key])
+
+                }
+            })
+        }
+
+    }
+
+    var mv = new Mvvm({
+        el: "#app",
+        data: {
+            msg: "默认msg",
+            info: "默认info"
+        }
+    });
+</script>
+
+</html>

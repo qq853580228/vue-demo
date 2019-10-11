@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <hr>
+    <div id="app">
+        <h1>测试标签：{{ msg }}</h1>
+    </div>
+    <hr>
+    <!-- <h3 id="aa">测试标签
+        <p>{{ msg }}</p>
+    </h3> -->
+    <!-- html5中的一个特殊标签 -->
+    <template id="aa">
+        <!-- 内部元素必须保证有且仅有一个根节点 -->
+        <div itany='网博'>
+            asdasdasdadasd
+            <p>{{ msg }}</p>
+        </div>
+        <!-- <h2>asdasd</h2> -->
+    </template>
+</body>
+<script>
+    // el 指定vue实例对应的页面模板 在html中位置
+    //     ==> 判断当前实例中是否存在 template 属性
+    //         -> 如果没有，使用el指向的标签构建vue实例容器
+    //         -> 若果有，使用 template 构建vue实例容器，将构建后的DOM替换到 el的指向上
+    // render 函数如果被重写（在构建vue示例时自行定义该函数）
+    //      template 属性失去作用，el仅用于定义位置，页面容器有 render 函数返回值决定
+
+    //   el   ==>   template    ==>   render
+    //  定位         模板              渲染
+ 
+
+    // template 构建vue实例容器结构的模板
+    
+    // 通过模板创建DOM元素，vue通过封装的 render(createElement) 函数 
+    //      结合模板创建项目中需要实现vue语法的DOM结构
+    //      参数的 createElement(tagName [,content [,childDom] ] ) 就是用于创建 DOM元素结构
+    new Vue({
+        el:"#app",
+        // 该属性用于描述当前vue实例需要在页面中展示的标签结构
+        // template:"<h2 itany='网博'><p>{{ msg }}</p></h2>",
+        template:"#aa",
+        render:function(createElement){
+            return createElement('h4', {},[
+                createElement("p","测试"),
+                createElement("p","测试")
+            ]);
+        },
+        data:{
+            msg:"msg变量"
+        }
+    })
+</script>
+</html>

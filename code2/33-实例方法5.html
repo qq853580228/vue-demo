@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/swiper.css">
+    <script src="./js/swiper.js"></script>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ result.name }}</h1>
+        <h1>{{ result.info }}</h1>
+        <!-- v-model指令在操作时，如果发现被绑定的属性在数据仓库中未被定义
+            v-model会主动完成该属性的 劫持操作
+        -->
+        <input type="text" v-model="result.info">
+        <ul>
+            <li v-for="(item, index) in result.loops" :key="index">{{ item }}</li>
+        </ul>
+        <input type="button" value="模拟异步数据加载-result" @click="loadResultData()">
+        <input type="button" value="模拟异步数据加载-loops" @click="loadLoopData()">
+        <input type="button" value="模拟异步数据加载-info" @click="loadInfoData()">
+        <hr>
+        <h1>{{ testObj.message }}</h1>
+        <input type="text" v-model="testObj.message">
+        <input type="button" value="删除message监控" @click="removeLinst()">
+        <input type="button" value="添加message属性" @click="addMessage()">
+        <hr>
+        <input type="button" value="为$data添加test" @click="addTest()">
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            result:{},
+            testObj:{
+                message:"初始化页面"
+            }
+        },
+        methods: {
+            loadResultData(){
+                // 无法在vue实例运行时，再为新属性添加数据劫持操作
+                // this.result.name = "测试name变量";
+                // this.$set(targetObj,keyName,value)
+                this.$set(this.result,"name","测试name变量");
+            },
+            loadLoopData(){
+                // 无法在vue实例运行时，再为新属性添加数据劫持操作
+                // this.result.loops = "南京,上海,苏州,镇江,扬州,合肥".split(",");
+                this.$set(this.result,"loops","南京,上海,苏州,镇江,扬州,合肥".split(","))
+            },
+            loadInfoData(){
+                this.result.info = "新info数据";
+            },
+            removeLinst(){
+                // this.$delete(targetObj,key)
+                this.$delete(this.testObj,"message");
+            },
+            addMessage(){
+                this.testObj.message = "新值";
+            },
+            addTest(){
+                this.$set(this.$data,"test","aaaa");
+            }
+        },
+    });
+</script>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        .fc {
+            color: red;
+        }
+
+        .fs {
+            font-size: 20px;
+        }
+
+        .bc {
+            background-color: #cccccc;
+        }
+
+        .border {
+            border: 1px solid black;
+        }
+
+        body {
+            margin-bottom: 600px;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>h1</h1>
+    <H1>h1</H1>
+    <div id="app">
+        <!-- 
+            html 代码不区分大小写的
+        -->
+        <!-- 
+            .prop 修饰符=> 强制v-bind完成DOM属性操作
+            ** 定义的驼峰命名方式的属性 会直接全局转为小写
+            ** 如果需要绑定驼峰方式数据，可以采用链子符方式定义
+        -->
+        <p :class=" 'fc fs' ">class</p>
+        <p :class-name=" 'fc fs' ">class</p>
+        <p :class-name.prop=" 'fc fs' ">class</p>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+        
+        }
+    })
+</script>
+
+</html>

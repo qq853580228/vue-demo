@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="c1"></div>
+    <hr>
+    <div id="c2"></div>
+    <hr>
+    <div id="c3"></div>
+</body>
+<script>
+    var data = {
+        msg:"数据"
+    }
+
+    // 构造器继承函数  Vue.extend(options)
+    // 完成配置继承
+    // options 配置项类似于 new Vue(options) 的 options
+    //              构造继承函数配置项目中，存在两个特殊配置区别于 new Vue 配置项
+    //                  el 不能定义与 extend继承函数
+    //                  data
+    // extend 方法存在一个固定的返回值，返回值是带有相关配置的 新的vue实例构造函数
+    var NewVueFun = Vue.extend({
+        // el:"#c1",
+        template: "<h1 @click='printMsg()'>测试标签{{ msg }}</h1>",
+        // JS 的 堆栈
+        // data:function(){
+        //     return data;
+        // },
+        // 为了实现 继承构造函数创建的实例对象，数据相互独立
+        data:function(){
+            return {
+                msg:"数据变量"
+            };
+        },
+        methods: {
+            printMsg() {
+                console.log("printMsg方法");
+            },
+        },
+        beforeCreate() {
+            console.log("beforeCreate");
+        },
+        created() {
+            console.log("created");
+        },
+        mounted() {
+            console.log("mounted");
+        }
+    });
+    // console.log(NewVueFun);
+    // 通过extend继承返回的新构造器在创建对象时，不能接受参数
+    //  该对象创建生命周期会停止在 mount 挂载行为上 = 得到一个具有$options配置项的基础对象
+    var obj1 = new NewVueFun();
+    var obj2 = new NewVueFun();
+    var obj3 = new NewVueFun();
+
+    obj1.$mount("#c1");
+    obj2.$mount("#c2");
+    obj3.$mount("#c3");
+    
+</script>
+
+</html>

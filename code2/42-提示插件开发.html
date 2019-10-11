@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        .tip {
+            position: fixed;
+            top: 0px;
+            left: 50%;
+            transform: translate(-50%, -100%);
+            opacity: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 30px;
+            border-radius: 6px;
+            max-width: 60%;
+            white-space: pre-wrap;
+            word-break: break-word;
+            box-sizing: border-box;
+            animation-name: tipFade;
+            animation-iteration-count: 1;
+            /* animation-duration: 3s; */
+        }
+
+        @keyframes tipFade {
+            0% {
+                transform: translate(-50%, -100%);
+                opacity: 0;
+            }
+
+            16% {
+                transform: translate(-50%, 40px);
+                opacity: 1;
+            }
+
+            84% {
+                transform: translate(-50%, 40px);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -100%);
+                opacity: 0;
+            }
+        }
+    </style>
+    <script>
+        // 基于vue开发的插件功能-可以在任意的场景下使用
+        var Tip = Vue.extend({
+            template: "<div class='tip' :style=' \"animation-duration:\"+time+\"ms;\" '>{{ msg }}</div>",
+            data() {
+                return {
+                    msg: "",
+                    time:3000
+                }
+            },
+            mounted() {
+                document.body.appendChild(this.$el);
+                console.log(this.time);
+                setTimeout(() => {
+                    document.body.removeChild(this.$el);
+                    this.$destroy();
+                }, this.time)
+            },
+        });
+
+        function tipBox(msg = "默认值",time=3000) {
+            let tip = new Tip();
+            tip.msg = msg;
+            tip.time = time;
+            tip.$mount();
+            // document.body.appendChild(tip.$el);
+            // setTimeout(() => {
+            //     document.body.removeChild(tip.$el);
+            //     tip.$destroy();
+            // }, 3000)
+        }
+
+    </script>
+</head>
+
+<body>
+    <input type="button" value="打开一个基于VUE语法开发的提示窗" onclick="tipBox('数据加载成功')">
+    <input type="button" value="打开一个基于VUE语法开发的提示窗" onclick="tipBox('评论添加成功',5000)">
+    <input type="button" value="打开一个基于VUE语法开发的提示窗" onclick="tipBox('操作成功')">
+
+
+</body>
+
+</html>

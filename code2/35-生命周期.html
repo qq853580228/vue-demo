@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        测试vue页面
+        <p>{{ msg }}</p>
+        <input type="text" v-model="msg">
+    </div>
+    <input type="button" value="销毁实例" onclick="destVue()">
+</body>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        // template:"<h1>模板</h1>",
+        data: {
+            msg: "msg变量"
+        },
+        methods: {
+            show(){}
+        },
+        beforeCreate() {
+            console.group("==>beforeCreate");
+            console.log("实例：",this); // 基本的vue空对象，没有装载相关配置
+            console.log("$el:",this.$el); // undefined
+            console.log("$options:",this.$options); // 根据配置参数创建构成实例的相关对象值
+            console.log("$data:",this.$data); // undefined
+            console.log("msg:",this.msg); // undefined
+            console.groupEnd();
+        },
+        created() {
+            console.group("==>created");
+            console.log("实例：",this); // 完成装配的vue实例
+            console.log("$el:",this.$el); // undefined
+            console.log("$options:",this.$options); // 根据配置参数创建构成实例的相关对象值
+            console.log("$data:",this.$data); // 根据$options.data 创建数据劫持对象
+            console.log("msg:",this.msg); // 将变量定义到 当前vue实例根属性上，提供开发使用
+            console.groupEnd();
+        },
+        beforeMount() {
+            console.group("==>beforeMount");
+            console.log("实例：",this); // 完成装配的vue实例
+            console.log("$el:",this.$el); // 显示的时配置el时指向的页面元素
+            console.log("$options:",this.$options); // 构成vue实例的配置项参数
+            console.log("$data:",this.$data); //具有劫持功能的基本数据仓库
+            console.log("msg:",this.msg); // 被劫持后，定义在vue实例的根属性上的监控变量
+            console.groupEnd();
+        },
+        mounted() {
+            console.group("==>mounted");
+            console.log("实例：",this); // 完成装配的vue实例
+            console.log("$el:",this.$el); // 显示由编译器完成的 虚拟DOM的构建对象
+            console.log("$options:",this.$options); // 构成vue实例的配置项参数
+            console.log("$data:",this.$data); // 具有劫持功能的基本数据仓库
+            console.log("msg:",this.msg); // 被劫持后，定义在vue实例的根属性上的监控变量
+            console.groupEnd();
+        },
+        beforeUpdate() {
+            console.group("==>beforeUpdate");
+            console.log("实例：",this); // 完成装配的vue实例
+            console.log("$el:",this.$el); // 虚拟DOM的构建对象
+            console.log("$options:",this.$options); // 构成vue实例的配置项参数
+            console.log("$data:",this.$data); // 具有劫持功能的基本数据仓库
+            console.log("msg:",this.msg); // 被劫持后，定义在vue实例的根属性上的监控变量
+            console.groupEnd();
+            // alert(1);
+        },
+        updated() {
+            console.group("==>updated");
+            console.log("实例：",this); // 完成装配的vue实例
+            console.log("$el:",this.$el); // 虚拟DOM的构建对象
+            console.log("$options:",this.$options); // 构成vue实例的配置项参数
+            console.log("$data:",this.$data); // 具有劫持功能的基本数据仓库
+            console.log("msg:",this.msg); // 被劫持后，定义在vue实例的根属性上的监控变量
+            console.groupEnd();
+        },
+        beforeDestroy() {
+            console.group("==>beforeDestroy");
+            console.log("实例：",this); // 完成装配的vue实例
+            console.log("$el:",this.$el); // 虚拟DOM的构建对象
+            console.log("$options:",this.$options); // 构成vue实例的配置项参数
+            console.log("$data:",this.$data); // 具有劫持功能的基本数据仓库
+            console.log("msg:",this.msg); // 被劫持后，定义在vue实例的根属性上的监控变量
+            console.groupEnd();
+        },
+        destroyed() {
+            console.group("==>destroyed");
+            console.log("实例：",this); // 完成装配的vue实例
+            console.log("$el:",this.$el); // 虚拟DOM的构建对象
+            console.log("$options:",this.$options); // 构成vue实例的配置项参数
+            console.log("$data:",this.$data); // 具有劫持功能的基本数据仓库
+            console.log("msg:",this.msg); // 被劫持后，定义在vue实例的根属性上的监控变量
+            console.groupEnd();
+        },
+    });
+    // console.log(vm.$el);
+    // // vm.$mount("#app");
+    // vm.$mount();
+    // console.log(vm.$el);
+    function destVue(){
+        vm.$destroy();
+    }
+</script>
+
+</html>

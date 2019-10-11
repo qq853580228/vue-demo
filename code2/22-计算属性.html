@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <label for="">name:</label>
+            <input type="text" v-model="name">
+        </div>
+        <div>
+            <label for="">age:</label>
+            <input type="number" v-model.number="age">
+        </div>
+        <div>
+            <label for="">sex:</label>
+            <input type="text" v-model="sex">
+        </div>
+        <div>
+            <label for="">email:</label>
+            <input type="text" v-model="email">
+        </div>
+        <input type="button" value="提交注册" :disabled=" name==''||age==''||sex==''||email=='' ">
+        <hr>
+        <input type="button" value="提交注册" :disabled=" checkData ">
+        <hr>
+        <p>调用计算属性：{{ checkDataTemp }}</p>
+        <hr>
+        <p>getMsg:{{ getMsg }}</p>
+        <input type="text" v-model="getMsg">
+        <input type="button" value="修改getMsg" @click=" getMsg = '新值' ">
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            name: "1",
+            age: "2",
+            sex: "3",
+            email: "4",
+            msg:"测试字符串"
+        },
+        computed: {
+            // name:function(){},
+            // 计算属性变量在页面中使用时，会直接调用该计算属性的执行方法
+            // 计算属性的处理方法如果需要实现功能，必须为方法提供返回值
+            checkDataTemp:function(){
+                console.log("checkData被执行",this);
+
+                //  定义方法执行逻辑
+
+                return "测试字符串";
+            },
+            checkData:function(){
+                // 完成变量 name age sex email 值判断
+                console.log("checkData计算属性方法被执行");
+                // console.log(this.name,this.sex,this.age,this.email);
+                // let flag = true;
+                // if(this.name.length<3||this.name.length>6){
+
+                // }
+                var nameflag = this.name.length<3||this.name.length>6;
+                var ageflag = this.age<0;
+                var sexflag = this.sex=="";
+                var emailReg = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+                var emailflag = !emailReg.test(this.email);
+                // return boolean;
+                return nameflag||ageflag||sexflag||emailflag; // false 按钮可点，true 按钮不可点
+                // return this.name==""||this.age==""||this.sex==""||this.email=="";
+            },
+            // getMsg(){
+            //     return "计算属性getMsg";
+            // }
+            getMsg:{
+                // 当计算属性取值为Object时，必须遵循vue计算属性对象定义语法
+                // get 属性对应的方法，是为当前计算属性提供 取值的功能定义
+                get:function(){
+                    // return "getMsg计算属性";
+                    return this.msg;
+                },
+                // set 属性对应的方法，是为当前计算属性提供 赋值的功能定义
+                //      set 方法构建时。vue对该方法默认提供一个形参，该形参是当前方法被调用时的修改值
+                set:function(nv){
+                    // console.log(nv);
+                    this.msg = nv;
+                }
+            }
+        },
+    })
+</script>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        html 标签中可以定义哪些数据类型值？
+            html页面无论运行环境发生什么变化 ，被展示的数据最终都以字符串形式呈现
+     -->
+    <div id="app">
+        <!-- 
+            基本用法：{{ 变量名称 }} 进行数据获取展示
+            取值范围：当前实例对应容器的数据仓库中的变量
+            取值类型：any
+            vue框架对插值表达式取值的变量 作为字符串转换操作==>vue核心语法中重新定义了toString方法
+            + null 和 undefined 最终会以 “” 字符串方式输出
+            + Array 和 [object Object] 会使用 JSON.stringify()
+            + 除了上述数据其他数据一律使用 强制类型转换 String()
+        -->
+        <p>string:{{ msg }}</p>
+        <p>number:{{ num }}</p>
+        <p>boolean:{{ flag }}</p>
+        <p>array:{{ arr }}</p>
+        <p>Object:{{ user }}</p>
+        <p>null:->{{ arg1 }}<-</p>
+        <p>undefined:->{{ arg2 }}<-</p>
+        <p>Image：{{ imgDom }}</p>
+        <p>Date:{{ day }}</p>
+        <!-- 
+            vue的插值表达式可以直接，以JS语法调用 匿名变量
+        -->
+        <p>number匿名变量：{{ 100 }}</p>
+        <p>string匿名变量：{{ "字符串" }}</p>
+        <p>boolean匿名变量：{{ true }}</p>
+        <p>array匿名变量：{{ [1,2,3,4,5] }}</p>
+        <p>object匿名变量：{{ {a:1,b:2} }}</p>
+        <p>Date匿名变量：{{ new Date() }}</p>
+        <p>对象：{{ user }}</p>
+        <p>对象中的属性：{{ user.name }}</p>
+        <p>数组元素：{{ arr[0] }}</p>
+
+        <!-- 
+            插值表达式可取值：JS表达式
+            + 在插值表达式的定义范围内，可以直接进行简单的 js 运算
+                - 四则运算
+                - 逻辑运算
+                - 比较运算
+                - 赋值运算
+                - 三目运算
+            * 总结：插值表达式在vue环境下运算时保留原变量类型，当运算结束后向页面输出时转换为字符串类型
+        -->
+        <p>四则：{{ 1+1 }}</p>
+        <p>四则：{{ num+1 }}</p>
+        <p>逻辑：{{ flag&&false }}</p>
+        <p>比较:{{ num<=99 }}</p>
+        <!-- 修改对应变量 -->
+        <p>赋值运算：{{ msg='新字符串' }}</p>
+        <p>三目运算：{{ flag?"真":"假" }}</p>
+        <!-- 
+            JS内置对象 (Math)
+         -->
+        <p>Math:{{ Math }}</p>
+        <p>Math:{{ Math.pow(2,2) }}</p>
+        <p>Math:{{ Math.random() }}</p>
+        <p>Math:{{ Math.PI }}</p>
+        <!-- 
+            插值表达式使用 标签格式字符串
+                + 插值表达式实际上是通过调用 textContent 方式向标签中定义数据变量
+                + textContent 和 innerText 在标签格式字符串处理上效果一样
+                    - innerText 当文本中出现 \n 会将 \n 提花为<br> : 文本解析属性
+                    - textContent 当文本中出现 \n 直接保留特性向页面输出
+         -->
+        <div>
+            {{ htmlStr }}
+        </div>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            msg:"测试数据",
+            num:100,
+            flag:true,
+            arr:[1,2,3,4],
+            user:{
+                name:"tom",
+                age:23
+            },
+            arg1:null,
+            arg2:undefined,
+            imgDom:new Image(),
+            day:new Date(),
+            // 不要使用JS内置关键字
+            // Math:"vue示例自定义的math"
+            htmlStr:"<h3>h3标签</h3>",
+            str:"aaaa\nbbbbb\n\tccccc"
+        }
+    })
+
+</script>
+</html>

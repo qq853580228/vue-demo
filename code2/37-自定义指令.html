@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p v-test>test指令1</p>
+        <!-- <p v-test>test指令2</p>
+        <p v-test>test指令3</p>
+        <p v-test>test指令4</p> -->
+        <!-- <p>test指令5</p> -->
+        <hr>
+        <div v-html="str"></div>
+        <div v-myhtml:aa="str"></div>
+        <input type="text" v-model="str">
+        <input type="button" value="为str赋值" @click=" str='<h3>测试标签</h3>' ">
+        <hr>
+        <!-- <div v-myhtml=" 'aaa'+'bbb' "></div> -->
+
+        <!-- 
+            2.6.0+ 动态参数绑定
+              v-指令名:[变量]  变量来自于当前容器对应的vue实例仓库
+         -->
+        <!-- <div v-myhtml:[arg]=" '动态指令测试' "></div> -->
+        <input type="button" value="改变arg变量" @click=" arg='BBB' ">
+         <!-- 指令修饰符 -->
+        <div v-myhtml.a.b=" '修饰符' "></div>
+         <hr>
+        <p v-node=" msg ">虚拟DOM</p>
+         <input type="text" v-model="msg">
+         <hr>
+         <p v-item>调用局部指令</p>
+
+    </div>
+</body>
+<script>
+    // 指令的完整语法：v-指令名[:参数][.修饰符][.修饰符]……=取值 
+
+    // Vue.directive( id,definition )  => 定义全局指令
+    //      - id=name : 定义指令名称
+    //      - definition :指令的处理函数，function( el，binding，newVnode,oldVnode ){}
+    //              el  :  调用指令的当前DOM对象
+    //              binding : 是一个对象 ，对象中包含了指令构成参数、修饰符、取值 ……
+    //              newVnode : 描述指令更新后的 新的 虚拟DOM
+    //              oldVnode ：描述指令更新后的 旧的 虚拟DOM
+    Vue.directive("test", function (el) {
+        // console.log("test指令",el);
+        el.style.color = "red";
+    });
+    // 1、自定义指令名称以 v- 开头构成指令结构  => v-test
+    // 2、指令需要被定义在标签属性上，用于描述指令被执行
+    // 3、被定义的标签一定是vue实例容器中的标签
+
+    // 实现一个和v-html 一样的功能
+    Vue.directive("myhtml", function (el, binding) {
+        // console.log("myhtml指令", binding);
+        // console.log("myhtml指令", binding.expression);
+        el.innerHTML = binding.value;
+    });
+    Vue.directive("node",function(el,binding,newVnode,oldVnode){
+        console.log(newVnode,oldVnode);
+    })
+
+    new Vue({
+        el: "#app",
+        data: {
+            str: "<h3>测试标签</h3>",
+            arg: "AA",
+            msg:""
+        },
+        directives:{
+            // key:value
+            // key指令名称
+            // value指令的执行函数
+            item:function(el,binding,newVnode,oldVnode){
+                console.log("v-item")
+            }
+        }
+    });
+
+
+</script>
+
+</html>
