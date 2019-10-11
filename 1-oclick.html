@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+<script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+<style>
+    .canvas{
+      width: 500px;
+      height: 500px;
+      margin: 200px 50px;
+      border: 1px solid pink;
+      text-align: center;
+      line-height: 500px;
+      padding: 0;
+    }
+    p{
+      margin: 0;
+      padding: 0;
+    }
+</style>
+</head>
+<body>
+<div id="app">
+<div v-if="show" @click="change">{{chan}}</div>
+<button @click="handleClick">BT</button>
+<div>
+  <input type="button" value="加一" @click="add(1)">
+  <input type="button" value="减一" @click="sub(1)">
+  <input type="button" value="加十" @click="add(10)">
+  <input type="button" value="减十" @click="sub(10)">
+  <input type="text" :value="'你的年龄为' + age + '岁'">
+</div>
+<div class="canvas">
+    <p @mousemove="updateXY(event)">{{ x }},{{ y }}</p>
+</div>
+</div>
+
+<script>
+new Vue({
+  el: "#app",
+  data: {
+  show:true,
+  chan:'未变化',
+  age: 30,
+  x: 0,
+  y: 0
+  },
+  methods: {
+  
+    handleClick:function(){
+       this.show =!this.show;
+    },
+    change:function(){
+      this.chan='已经变化'
+    },
+    add(inc){
+      this.age +=  inc;
+    },
+    sub(sub){
+      this.age -= sub;
+    },
+    updateXY(event){
+      this.x = event.offsetX;
+      this.y = event.offsetY;
+    }
+    } 
+})
+</script>
+</body>
+</html>

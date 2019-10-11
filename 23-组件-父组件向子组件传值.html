@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+</head>
+
+<body>
+    <div id="app">
+        <com1 :parentmsg="msg">
+
+        </com1>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '父组件中的数据'
+            },
+            methods: {},
+            // 默认，子组件访问不了父作用域下的msg数据
+            components: {
+                'com1': {
+                    /* 子组件中data数据，并不是通过父组件传递过来的
+                    而是子组件自身私有的，比如：子组件通过ajax请求回来的数据都可以放在子组件的data身上 */
+                    data: function() {
+                        return {
+                            title: '123',
+                            comtent: 'qqq'
+                        }
+                    },
+                    template: '<h3  @click="change">这是子组件   ---   {{ parentmsg }}</h3>',
+
+                    // props：用来接收父组件传递过来的数据，， 里面的数据都是只读的，无法重新赋值，子组件中也不要去修改props的值
+                    props: ['parentmsg'],
+                    methods: {
+                        change() {
+                            this.parentmsg = '被改变了'
+                        }
+                    },
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

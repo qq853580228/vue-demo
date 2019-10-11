@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <mycom :number1="num1" :number2="num2" @num1val="num1val" @num2val="num2val"></mycom>
+  </div>
+  <template id="tmp">
+    <div>
+      <h3>props:{{ number1 }}</h3>
+      <h3>{{ numb1 }}</h3>
+      <input type="text" v-model="numb1">
+      <br>
+      <h3>props:{{ number2 }}</h3>
+      <h3>{{ numb2 }}</h3>
+      <input type="text" v-model="numb2">
+    </div>
+  </template>
+  <script>
+    var mycom = {
+      template: '#tmp',
+      props: {
+        number1: Number,
+        number2: Number
+      },
+      data() {
+        return {
+          numb1: this.number1,
+          numb2: this.number2
+        }
+      },
+      watch: {
+        numb1(newVal) {
+          this.$emit('num1val', newVal);
+          this.numb2 = Number(newVal) * 100;
+        },
+        numb2(newVal) {
+          this.$emit('num2val', newVal);
+          this.numb1 = Number(newVal) / 100;
+        }
+      },
+
+    }
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        num1: 1,
+        num2: 2
+      },
+      methods: {
+        num1val(value) {
+          this.num1 = Number(value);
+        },
+        num2val(value) {
+          this.num2 = Number(value);
+        }
+      },
+      components: {
+        mycom
+      }
+    });
+  </script>
+</body>
+
+</html>

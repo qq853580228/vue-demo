@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 方式一 -->
+        <!-- <input type="text" v-model="firstname" @keyup="getFullName">-
+        <input type="text" v-model="lastname" @keyup="getFullName">-
+        <input type="text" v-model="fullname"> -->
+
+        <!-- 方式二 -->
+        <input type="text" v-model="firstname">-
+        <input type="text" v-model="lastname">-
+        <input type="text" v-model="fullname">
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                firstname: '',
+                lastname: '',
+                fullname: ''
+            },
+            methods: {
+                // 方式一
+                /*  getFullName() {
+                     this.fullname = this.firstname + '-' + this.lastname
+                 } */
+            },
+            // 方式二
+            // 使用这个属性， 可以监视 data 中指定数据的变化，然后触发这个 watch 中相对应的function函数
+            /* watch: {
+                // 当属性  firstname  中间有 -  如，first-name才需要加引号，watch监视的属性名要跟data中的属性名保持一致
+                'firstname': function(newVal, oldVal) {
+
+                    // this.fullname = this.firstname + '-' + this.lastname
+                    console.log(newVal + '---' + oldVal); //1---0  11---1  111---11，左边是最新的值，右边是旧的值
+                    this.fullname = newVal + '-' + this.lastname
+                },
+                lastname: function(newVal) {
+                    this.fullname = this.firstname + '-' + newVal
+                }
+            }, */
+
+            // 方式三 computed 计算属性
+            computed: {
+
+            },
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 管道符 | 后面的msgF和test是过滤器名称（可以同时使用多个过滤器）， Vue.filter的function(msg)可以直接获取 | 前面的msg -->
+        <p>{{ msg | msgF('啦啦啦','lili') | test }}</p>
+    </div>
+    <script>
+        Vue.filter('msgF', function(msg, pat, pat1) {
+            return msg.replace(/摇摆/g, pat + pat1);
+        });
+        Vue.filter('test', function(msg) {
+            return msg + '======!!';
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '我们一起摇摆，一起摇摆！'
+            },
+            methods: {}
+        });
+    </script>
+</body>
+
+</html>

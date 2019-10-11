@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        var vm=new Vue({
+           el:'#app',
+           data:{},
+           methods:{},
+           beforeCreate() {//这是遇到的第一个生命周期函数，表示实例完全被创建出来之前，会执行它
+               
+           },
+           created() {//这是遇到的第二个生命周期函数，在这个函数中，data 和 methods都已经被初始化好了
+           //如果要调用data的数据或者是methods中的方法，最早，只能在created中操作
+               
+           },
+           beforeMount() {//这是遇到的第三个生命周期函数，此时模版已经编辑完毕但还未渲染到页面中去，页面还是旧的
+               
+           },
+           mounted() {//这是遇到的第四个生命周期函数，当执行完这个函数时，就表示实例已经完全创建好了，如果
+           //没有其他操作，这个实例在内存中一动不动
+               
+           },
+           //运行中的两个事件
+           beforeUpdate() {//这时候，表示界面还没被更新，数据已经被更新
+           //当执行beforeUpdate的时候，页面的数据还是旧的，data数据是最新的，页面还未和最新的数据保持同步
+               
+           },
+           updated() {
+               // updated事件被执行的时候，页面和data数据都是最新的，保持同步
+           },
+        });
+    </script>
+</body>
+
+</html>

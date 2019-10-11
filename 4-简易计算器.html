@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+</head>
+<body>
+        <div id="app">
+                <input type="text" v-model="n1"/>
+                <select v-model="js" >
+                    <option value="+" >+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                </select>
+                <input type="text" v-model="n2"/>
+                <input type="button" value="=" @click="calc"/>
+                <input type="text" v-model="sum"/>
+        </div>
+    <script>
+               var vm= new Vue({
+                  el: "#app",
+                  data: {
+                  n1:0,
+                  n2:0,
+                  sum:0,
+                  js:'+'
+                  },
+                  methods: {
+                 calc(){
+                     switch(this.js){
+                         case '+':this.sum=parseInt(this.n1)+parseInt(this.n2)
+                         break;
+                         case '-':this.sum=parseInt(this.n1)-parseInt(this.n2)
+                         break;
+                         case '*':this.sum=parseInt(this.n1)*parseInt(this.n2)
+                         break;
+                         case '/':this.sum=parseInt(this.n1)/parseInt(this.n2)
+                         break;
+                     }
+                 }
+            
+                    },
+                })
+</script>
+</body>
+</html>

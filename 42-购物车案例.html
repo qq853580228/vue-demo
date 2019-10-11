@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+  <link rel="stylesheet" href="./bootstrap-3.3.7.css">
+</head>
+
+<body>
+  <div id="app">
+    <table class="table  table-hover">
+      <thead>
+        <tr>
+          <th></th>
+          <th>书籍名称</th>
+          <th>出版日期</th>
+          <th>价格</th>
+          <th>购买数量</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item,index) in books" :key="item.id">
+          <td>{{item.id}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.data}}</td>
+          <td>{{item.price | priceMsg}}</td>
+          <td><input type="button" value="-" class="btn btn-primary" @click="dec(index)" :disabled="item.count <=1">
+            {{item.count}}
+            <input type="button" value="+" @click="inc(index)" class="btn btn-primary"></td>
+          <td><input type="button" value="移除" class="btn btn-danger" @click="remove(index)"></td>
+        </tr>
+      </tbody>
+    </table>
+    <p v-if="books.length">总价：{{ totalPrice | priceMsg}}</p>
+    <p v-else>购物车为空</p>
+  </div>
+  <script>
+    Vue.filter('priceMsg', function (msg) {
+      return '￥' + msg.toFixed(2);
+    });
+    var vm = new Vue({
+
+      el: '#app',
+      data: {
+
+        books: [{
+          id: 1,
+          name: '《算法导论》',
+          data: '2006-9',
+          price: 85.00,
+          count: 1
+        }, {
+          id: 2,
+          name: '《UNIX编程艺术》',
+          data: '2006-2',
+          price: 59.00,
+          count: 1
+        }, {
+          id: 3,
+          name: '《编程珠玑》',
+          data: '2008-10',
+          price: 39.00,
+          count: 1
+        }, {
+          id: 4,
+          name: '《代码大全》',
+          data: '2006-3',
+          price: 128.00,
+          count: 1
+        }, ]
+      },
+      methods: {
+        remove(index) {
+          this.books.splice(index, 1);
+        },
+        dec(index) {
+          /* if (this.books[index].count = 1) {
+              return;
+          } */
+          this.books[index].count--;
+
+        },
+        inc(index) {
+          this.books[index].count++;
+        }
+      },
+      computed: {
+        totalPrice() {
+          // let totalPrice = 0
+          /*  for (let i = 0; i < this.books.length; i++) {
+               totalPrice += this.books[i].price * this.books[i].count
+           } */
+          /* this.books.forEach(item => {
+              totalPrice += item.price * item.count
+          })
+          return totalPrice */
+          return this.books.reduce((prevVal, book) =>
+            prevVal + book.price * book.count, 0)
+        }
+      },
+    });
+  </script>
+</body>
+
+</html>

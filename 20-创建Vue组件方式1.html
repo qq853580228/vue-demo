@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <mycom></mycom> -->
+        <!-- <mycom1></mycom1> -->
+        <mycom2></mycom2>
+        <mycom3></mycom3>
+        <!-- <mylogin></mylogin> -->
+        <login></login>
+    </div>
+    <!-- 在被控制的#app外，使用template元素，定义组件的HTML模版结构 -->
+    <template id="tmp1">
+            <div>
+                <h3>这是通过template元素，在外部定义组件的组件结构</h3>
+            </div>
+        </template>
+    <script>
+        var login = {
+                template: '<h3>字面量创建template模板</h3>'
+            }
+            /* Vue.component('mylogin', login); */
+
+
+        // var com1 = Vue.extend({
+        /* 
+        使用Vue.extend 来创建全局Vue组件
+        template:'<h3>这是使用Vue.extend创建的组件</h3>'
+        通过template属性，指定了组件要展示的HTML结构
+        使用Vue.component{'组件的名称',创建出来的组件模版对象}
+         */
+        /*  */
+        // template:'<h3>这是使用Vue.extend创建的组件</h3>'
+        // })
+        //Vue.component('mycom',com1)
+        //方式1
+        /*     Vue.component('mycom',Vue.extend({
+            template:'<h3>这是使用Vue.extend创建的组件</h3>'
+            })) */
+        //方式2 *:不论是那种方式创建出来的组件，组件的template属性指向的模版内容，有且只能有一个根元素
+        /*  Vue.component('mycom1', {
+             template:'<div><h3>这是使用Vue.component创建的组件</h3><span>123</span></div>'
+         }) */
+        //方式3
+        Vue.component('mycom2', {
+            template: '#tmp1'
+        });
+        Vue.component('mycom3', {
+            template: '<h1>{{ msg }}</h1>',
+            data: function() {
+                return {
+                    msg: '我是组件mycom3的data数据'
+                }
+            }
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {},
+            components: {
+                /* 'mylogin': login */
+                login
+            }
+        });
+    </script>
+</body>
+
+</html>

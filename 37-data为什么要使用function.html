@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <mycom></mycom>
+        <hr>
+        <mycom></mycom>
+        <hr>
+        <mycom></mycom>
+    </div>
+    <template id="tmp">
+        <div>
+            <input type="button" value="+1" @click="increament">
+            <h1>{{count}}</h1>
+         </div>
+    </template>
+    <script>
+        Vue.component('mycom', {
+            // 通过调用data函数return count 开辟了一个新的内存空间
+            data() {
+                return {
+                    count: 0
+                }
+            },
+            template: '#tmp',
+            methods: {
+                increament() {
+                    this.count++;
+                }
+            }
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {}
+        });
+    </script>
+</body>
+
+</html>

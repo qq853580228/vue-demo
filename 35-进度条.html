@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <style>
+        #bag{
+            width: 400px;
+            height: 200px;
+            background-color: cyan;
+            padding: 0;
+            margin: 0 auto;
+
+        }
+        #bag.change{
+            width: 400px;
+            height: 200px;
+            background-color: hotpink;
+            padding: 0;
+            margin: 0 auto;
+        }
+
+        #bag-health{
+            width: 200px;
+            border: 2px #000 solid;
+            margin: 20px auto 20px auto;
+        }
+
+        #bag-health div{
+            
+            height: 20px;
+            background-color: crimson;
+            margin: 0 auto;
+        }
+
+        #controls{
+            text-align: center
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="bag" :class="{ change: end }"></div>
+        <div id="bag-health">
+            <div :style="{ width: bar + '%' }"></div>
+        </div>
+        <div id="controls">
+            <input type="button" value="使劲敲" @click="punsh" v-show="!end">
+            <input type="button" value="重新开始" @click="restart">
+        </div>
+    </div>
+    <script>
+        var vm=new Vue({
+           el:'#app',
+           data:{
+            end: false,
+            bar: 100
+           },
+           methods:{
+               punsh() {
+               setInterval(() => {
+                    this.bar -=10;
+                    if(this.bar <= 0){
+                        this.end = true
+                    }
+                
+               }, 500)} ,
+                
+                restart(){
+                    this.bar = 100;
+                    this.end = false
+                }
+           }
+        });
+    </script>
+</body>
+
+</html>

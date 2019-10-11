@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <mycom :msg="message" @clickitem="getinfo"></mycom>
+  </div>
+  <template id="tmp">
+    <div>
+      <p>{{ msg }}</p>
+      <button v-for="item in cates" :key="item.id" @click="btnclick(item)">{{ item.name }}</button>
+    </div>
+  </template>
+  <script>
+    var mycom = {
+      template: '#tmp',
+      data() {
+        return {
+          cates: [{
+            id: 1,
+            name: '热门推荐',
+          }, {
+            id: 2,
+            name: '电脑办公',
+          }, {
+            id: 3,
+            name: '家用电器',
+          }, {
+            id: 4,
+            name: '手机电视',
+          }],
+          msg: ''
+        }
+      },
+      methods: {
+        btnclick(item) {
+          this.$emit('clickitem', item);
+        }
+      },
+      props: {
+        msg: {
+          type: String,
+          required: true
+        }
+      }
+    }
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        message: '你好啊'
+      },
+      methods: {
+        getinfo(item) {
+          console.log(item, '---===');
+
+        }
+      },
+      components: {
+        mycom
+      }
+    });
+  </script>
+</body>
+
+</html>

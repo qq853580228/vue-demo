@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+<style>
+.fade-enter-active, 
+.fade-leave-active {
+            transition: all 2s ease;
+}
+.fade-enter, 
+.fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateX(100px);
+  }
+.v-enter-active, 
+.v-leave-active {
+            transition: all 2s ease;
+}
+.v-enter, 
+.v-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(100px);
+  }
+</style>
+</head>
+
+<body>
+    <div id="app" >
+        <input type="button" @click="flag=!flag" value="taggle">
+        <transition name="fade">
+        <h3 v-if="flag">这是一个h3</h3>
+        </transition>
+        <hr />
+        <input type="button" @click="flag1=!flag1" value="taggle1">
+        <transition >
+        <h6 v-if="flag1">这是一个h6</h6>
+        </transition>
+    </div>
+    <script>
+
+        var vm=new Vue({
+           el:'#app',
+           data:{
+               flag:false,
+               flag1:false
+           },
+           methods:{
+
+           }
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Promise.all(
+        //     new Promise((resolve, reject) => {
+        //         $.ajax({
+        //             url: 'url1',
+        //             success(data) {
+        //                 resolve(data)
+        //             },
+
+        //         })
+        //     }),
+        //     new Promise((resolve, reject) => {
+        //         $.ajax({
+        //             url: 'url2',
+        //             success(data) {
+        //                 resolve(data)
+        //             },
+
+        //         })
+        //     })
+        // )
+        // .then(res => { //res是一个数组，res[0]是第一个Promise的请求结果   res[1]是第二个Promise的请求结果
+        //     console.log(res[0]);
+        //     console.log(res[1]);
+        // })
+
+        Promise.all([  //必须等两个Promise请求都完成后才进行下一步操作
+        new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve({name: 'zhangsan', age: 18})
+                }, 2000);
+            }),
+            new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve({name: 'lisi', age: 19})
+                }, 1000);
+            }),
+        ])
+        .then(res => {
+            console.log(res);
+            
+        })
+    </script>
+</body>
+</html>

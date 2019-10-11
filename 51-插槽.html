@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+</head>
+
+<body>
+  <!-- 插槽的基本使用 <slot></slot> -->
+  <!-- 插槽里默认值为空，也可以手动设置默认值，如 <slot><button>默认是按钮</button></slot>-->
+  <!-- div里多个子组件中，子组件标签里如果有内容，则会全部替换插槽的默认值并全部显示 -->
+  <div id="app">
+    <mycom><button>子组件1的按钮</button></mycom>
+    <mycom><span>子组件2的span</span>
+      <div>我是组件2的div</div>
+      <h3>我是组件2的h3</h3>
+    </mycom>
+    <mycom><a href="#">子组件3的a</a></mycom>
+    <mycom></mycom>
+  </div>
+  <template id="tmp">
+    <div>
+      <h2>我是h2</h2>
+      <p>我是p</p>
+      <slot><button>默认是按钮</button></slot>
+    </div>
+  </template>
+  <script>
+    var mycom = {
+      template: '#tmp'
+    }
+    var vm = new Vue({
+      el: '#app',
+      data: {},
+      methods: {},
+      components: {
+        mycom
+      }
+    });
+  </script>
+</body>
+
+</html>

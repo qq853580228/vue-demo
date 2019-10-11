@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+</head>
+
+<body>
+    <!-- 插槽的基本使用 <slot name="xx"></slot> -->
+    <!-- 修改具名插槽时，使用的时候必须添加slot=""，来修改对应的具名插槽的内容。若未填写slot则不会生效 -->
+    <!-- 替换具名插槽的内容可以是任意的 -->
+    <div id="app">
+
+        <mycom>
+            <span slot="left">子组件2的span</span>
+            <div slot="center">我是组件2的div</div>
+            <h3 slot="right">我是组件2的h3</h3>
+
+        </mycom>
+
+    </div>
+    <template id="tmp">
+        <div>
+            <slot name="left"><h2>我是h2</h2></slot>
+            <slot name="center"><p>我是p</p></slot>
+            <slot name="right"><button>默认是按钮</button></slot>
+        </div>
+    </template>
+    <script>
+        var mycom = {
+            template: '#tmp'
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {},
+            components: {
+                mycom
+            }
+        });
+    </script>
+</body>
+
+</html>

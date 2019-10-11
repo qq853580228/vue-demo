@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-model="firstname">-
+    <input type="text" v-model="middlename">-
+    <input type="text" v-model="lastname">-
+    <input type="text" v-model="fullname">
+    <p>{{ fullname }}</p>
+    <p>{{ fullname }}</p>
+    <p>{{ fullname }}</p>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        firstname: '',
+        lastname: '',
+        middlename: ''
+      },
+      methods: {},
+      computed: {
+        /* 在computed中， 可以定义一些属性，这些属性，叫作【计算属性】，计算属性的本质就是一个方法，只不过我们在使用
+        这些计算属性的时候，是把他们的名称，直接当作属性来使用的，并不会把计算属性当作方法调用 */
+        /* 
+        1.计算属性，在引用的时候，一定不要加()去调用，直接把它当作普通的属性去使用就可以了
+        2.只要计算属性这个function内部所用到的任何data中数据（firstname+lastname+middlename）数据发生了变化
+        就会重新计算这个属性的值
+        3.计算属性求值结果会被缓存起来，方便下次继续使用；如果计算属性方法中，所有的数据都没有发生变化就不会
+        重新对 计算属性求值
+        
+         */
+        fullname: function () {
+          console.log('ok');
+          /* 里面的数据发生一次改变，就会打印一下ok ，而p标签里的数据是缓存好的，如果没有重新对计算属性求值，
+          就不会执行打印动作 */
+          return this.firstname + '-' + this.middlename + '-' + this.lastname;
+        }
+      },
+    });
+  </script>
+</body>
+
+</html>

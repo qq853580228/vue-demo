@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- .lazy - 取代 input 监听 change 事件  当input表单失去焦点 或者按回车时生效 -->
+    <input type="text" v-model.lazy="msg">
+    <p>{{ msg }}</p>
+    <!-- .number - 输入字符串转为有效的数字  默认 input的数据属于字符串类型 -->
+    <input type="number" v-model.number="msg1">
+    <p>{{ msg1 }}---{{ typeof msg1 }}</p>
+    <input type="text" v-model.trim="msg2">
+    <p>{{ msg2 }}</p>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        msg: '',
+        msg1: 0,
+        msg2: ''
+      },
+      methods: {}
+    });
+  </script>
+</body>
+
+</html>

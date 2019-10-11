@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{msg|msgF('疯狂') |test}}</p>
+    </div>
+    <script>
+        Vue.filter('msgF',function(msg,arg){
+          return msg.replace(/单纯/g,arg)
+        })
+        Vue.filter('test',function(msg){
+            return msg +'-----!!!'
+        })
+        var vm=new Vue({
+           el:'#app',
+           data:{
+               msg:'曾经，我也是一个单纯的少年，单纯的我，傻傻的问，谁是世界上最纯洁的男人'
+           },
+           methods:{}
+        });
+    </script>
+</body>
+
+</html>

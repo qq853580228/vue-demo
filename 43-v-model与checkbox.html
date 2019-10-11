@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="./vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- <label for="agree">
+      <input type="checkbox" name="agree" id="" v-model="flag">同意
+    </label>
+    <p>您的同意此协议吗？{{ flag }}</p>
+    <input type="checkbox" value="篮球" v-model="hobbies">篮球
+    <input type="checkbox" value="足球" v-model="hobbies">足球
+    <input type="checkbox" value="乒乓球" v-model="hobbies">乒乓球
+    <input type="checkbox" value="羽毛球" v-model="hobbies">羽毛球 -->
+      <p>您的爱好是：{{ hobbies }}</p>
+      <label v-for="item in oringunHobbies" :key="item" :for="item">
+        <input type="checkbox" :value="item" :id="item" v-model="hobbies" />{{
+          item
+        }}
+      </label>
+    </div>
+    <script>
+      var vm = new Vue({
+        el: '#app',
+        data: {
+          flag: false, //单个复选框 是布尔值
+          hobbies: [], //多个复选框，是一个数组
+          oringunHobbies: [
+            '篮球',
+            '足球',
+            '乒乓球',
+            '羽毛球',
+            '台球',
+            '高尔夫球'
+          ]
+        },
+        methods: {}
+      })
+      var num = 1
+      function num() {
+        console.log(num)
+      }
+      num()
+    </script>
+  </body>
+</html>

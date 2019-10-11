@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <link rel="stylesheet" href="animate.css">
+    <style>
+        .ball {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="快到碗里来" @click="flag=!flag">
+        <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+            <div class="ball" v-show="flag">
+
+            </div>
+        </transition>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                flag: false
+            },
+            methods: {
+                //动画钩子函数的第一个参数，el表示要执行动画的那个DOM元素，是个原生的 JS DOM对象
+                //大家可以认为，el是通过getElementById('') 方式获取到的原生 JS DOM对象
+                beforeEnter(el) {
+                    //beforeEnter表示动画入场之前，此时，动画还未正式开始，可以在beforeEnter中，设置元素开始动画的起始样式
+                    //设置小球开始动画之前的起始位置
+                    el.style.transform = "translate(0,0)"
+                },
+                // 这里的done就是afterEnter函数，意思就是enter函数执行完之后，再执行done回调函数，防止enter和afterEnter同步执行
+                enter(el, done) {
+                    //这句话没有实际作用，但如果不写，动画效果出不来。可以认为el.offsetWidth强制动画刷新
+                    el.offsetWidth
+                        //enter表示动画开始之后的样式，这里可以设置小球完成动画之后的结束状态
+                    el.style.transform = "translate(150px,450px)"
+                    el.style.transition = 'all 1s ease'
+                    done()
+                },
+                afterEnter(el) {
+
+                    this.flag = !this.flag
+
+                    // el.style.opacity = 0;
+
+                    /* Vue把一个完整的动画，使用钩子函数，拆分成了两部分 */
+                    /* 第一个功能： 控制小球的显示与隐藏 */
+                    /* 动画全过程flag： false --->  true  --->false  */
+                    /* 第二个功能： 直接跳过小球后半场的动画，让flag标识符  直接变为false ，
+                    如果不让flag为false，由于后半场动画是flag： flase -->true  的转换，就会执行后半场动画，我们只要执行前半场动画*/
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
